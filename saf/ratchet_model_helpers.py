@@ -4,7 +4,7 @@ from scipy.signal import argrelextrema
 from saf.filters import n_fold_filter
 
 
-def get_correct_period_indices(overlap_score, n_folds):
+def _get_correct_period_indices(overlap_score, n_folds):
     """Get the correct period indices based on the maximum value in the loss
     values.
 
@@ -61,13 +61,13 @@ def compute_loss_near_offset1(intensity, prev_offset, n_folds, k):
     overlap_score = []
     for offset in offset_values:
         evaluate_image_theta = n_fold_filter(
-            k=k, offset=offset, n_folds=n_folds, imshape=imshape
+            k=k, offset=offset, n_folds=n_folds, imshape=imshape, cx=imshape[1] // 2, cy=imshape[0] // 2
         )
         loss = -(intensity * evaluate_image_theta).sum()
         overlap_score.append(loss.item())
     first_derivative = np.gradient(overlap_score)
     second_derivative = np.gradient(first_derivative)
-    selected_indices = get_correct_period_indices(overlap_score, n_folds)
+    selected_indices = _get_correct_period_indices(overlap_score, n_folds)
 
     offset_values = np.array(
         offset_values[selected_indices[0] : selected_indices[1] + 1]

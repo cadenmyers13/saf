@@ -12,6 +12,7 @@ analysis-generated_data/
 npz_sept_numor_data/
 ppt_slides/
 4DSTEM_data/
+data/
 
 # Distribution / packaging
 .Python
