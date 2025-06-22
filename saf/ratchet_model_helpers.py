@@ -61,7 +61,12 @@ def compute_loss_near_offset1(intensity, prev_offset, n_folds, k):
     overlap_score = []
     for offset in offset_values:
         evaluate_image_theta = n_fold_filter(
-            k=k, offset=offset, n_folds=n_folds, imshape=imshape, cx=imshape[1] // 2, cy=imshape[0] // 2
+            k=k,
+            offset=offset,
+            n_folds=n_folds,
+            imshape=imshape,
+            cx=imshape[1] // 2,
+            cy=imshape[0] // 2,
         )
         loss = -(intensity * evaluate_image_theta).sum()
         overlap_score.append(loss.item())

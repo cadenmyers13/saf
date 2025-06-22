@@ -12,7 +12,7 @@ def find_k_value(resolution, n_folds):
     return k
 
 
-def n_fold_filter(k, offset, n_folds, imshape, cx=0, cy=0):
+def n_fold_filter(k, offset, n_folds, imshape, cx=None, cy=None):
     """
     Generate an n-fold symmetric filter based on the input parameters.
     This function creates a filter that applies an n-fold rotational symmetry
@@ -23,8 +23,8 @@ def n_fold_filter(k, offset, n_folds, imshape, cx=0, cy=0):
         offset (float): An angular offset (in radians) applied to the symmetry.
         n_folds (int): The number of symmetric folds to apply.
         imshape (tuple): A tuple (h, w) representing the height and width of the image.
-        cx (int, optional): The x-coordinate of the center of rotation. Defaults to 0.
-        cy (int, optional): The y-coordinate of the center of rotation. Defaults to 0.
+        cx (int, optional): The x-coordinate of the center of rotation. Defaults to middle of imshape.
+        cy (int, optional): The y-coordinate of the center of rotation. Defaults to middle of imshape.
     Returns:
         numpy.ndarray: A 2D array of the same shape as the input image,
         representing the n-fold symmetric filter.
@@ -35,7 +35,10 @@ def n_fold_filter(k, offset, n_folds, imshape, cx=0, cy=0):
           with higher values resulting in sharper transitions.
         - The `offset` parameter allows for rotation of the symmetry pattern.
     """
-
+    if cx is None:
+        cx = imshape[1] // 2
+    if cy is None:
+        cy = imshape[0] // 2
     h, w = imshape
     x_grid, y_grid = np.meshgrid(np.arange(w), np.arange(h))
     x_rel = x_grid - cx
@@ -45,7 +48,7 @@ def n_fold_filter(k, offset, n_folds, imshape, cx=0, cy=0):
     return np.exp(k * np.log(np.cos(n_folds / 2 * (offset + theta)) ** 2))
 
 
-def gaussian_filter(sigma, imshape, cx=0, cy=0):
+def gaussian_filter(sigma, imshape, cx=None, cy=None):
     """Generate a 2D Gaussian blob centered at (cx, cy) in an image of shape
     `imshape`.
 
@@ -58,6 +61,10 @@ def gaussian_filter(sigma, imshape, cx=0, cy=0):
     Returns:
         numpy.ndarray: A 2D Gaussian blob.
     """
+    if cx is None:
+        cx = imshape[1] // 2
+    if cy is None:
+        cy = imshape[0] // 2
     h, w = imshape
     y_grid, x_grid = np.meshgrid(np.arange(h), np.arange(w), indexing="ij")
     distance_squared = (x_grid - cx) ** 2 + (y_grid - cy) ** 2
@@ -65,7 +72,7 @@ def gaussian_filter(sigma, imshape, cx=0, cy=0):
     return gaussian
 
 
-def annulus_filter(r_0, sd, imshape, cx=0, cy=0):
+def annulus_filter(r_0, sd, imshape, cx=None, cy=None):
     """Generate a circular annulus-shaped filter centered at (cx, cy) in a 2D
     image.
 
@@ -79,6 +86,10 @@ def annulus_filter(r_0, sd, imshape, cx=0, cy=0):
     Returns:
         ndarray: 2D annulus filter.
     """
+    if cx is None:
+        cx = imshape[1] // 2
+    if cy is None:
+        cy = imshape[0] // 2
     h, w = imshape
     y, x = np.meshgrid(np.arange(h), np.arange(w), indexing="ij")
     r = np.sqrt((x - cx) ** 2 + (y - cy) ** 2)
