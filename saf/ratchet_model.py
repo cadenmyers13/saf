@@ -120,7 +120,7 @@ def calculate_offsets(
     )
 
     if direction == "cw":
-        offsets1, offsets2 = regress_offset_cw(
+        offsets1, offsets2, overlap_score1, overlap_score2 = regress_offset_cw(
             dps=dps,
             n_folds=n_folds,
             k=k,
@@ -129,7 +129,7 @@ def calculate_offsets(
             tolerance_reverse=tolerance_reverse,
         )
     else:
-        offsets1, offsets2 = regress_offset_ccw(
+        offsets1, offsets2, overlap_score1, overlap_score2 = regress_offset_ccw(
             dps=dps,
             n_folds=n_folds,
             k=k,
@@ -138,4 +138,4 @@ def calculate_offsets(
             tolerance_reverse=tolerance_reverse,
         )
 
-    return offsets1, offsets2
+    return offsets1, offsets2, overlap_score1, overlap_score2

@@ -83,6 +83,8 @@ def regress_offset_ccw(
     optimal_offsets2 = []
     prev_offset1 = 0
     prev_offset2 = 0
+    overlap_score1 = []
+    overlap_score2 = []
 
     for index, dp in enumerate(dps):
         loss_list1 = []
@@ -115,6 +117,8 @@ def regress_offset_ccw(
             loss_list1.append(loss)
             offset_list_deg1.append(offset1)
 
+        overlap1 = min(loss_list1)
+        overlap_score1.append(overlap1)
         # assign offset1
         min_loss_idx = loss_list1.index(min(loss_list1))
         best_offset1 = offset_list_deg1[min_loss_idx]
@@ -171,6 +175,8 @@ def regress_offset_ccw(
             loss_list2.append(loss)
             offset_list_deg2.append(offset2)
 
+        overlap2 = min(loss_list2)
+        overlap_score2.append(overlap2)
         # assign offset2
         min_loss_idx = loss_list2.index(min(loss_list2))
         best_offset2 = offset_list_deg2[min_loss_idx]
@@ -181,7 +187,7 @@ def regress_offset_ccw(
         prev_offset1 = best_offset1
         prev_offset2 = best_offset2
 
-    return optimal_offsets1, optimal_offsets2
+    return optimal_offsets1, optimal_offsets2, overlap_score1, overlap_score2
 
 
 def regress_offset_cw(
@@ -251,6 +257,9 @@ def regress_offset_cw(
     optimal_offsets2 = []
     prev_offset1 = 0
     prev_offset2 = 0
+    overlap_score1 = []
+    overlap_score2 = []
+
     for index, dp in enumerate(dps):
         loss_list1 = []
         offset_list_deg1 = []
@@ -281,6 +290,8 @@ def regress_offset_cw(
             loss_list1.append(loss)
             offset_list_deg1.append(offset1)
 
+        overlap1 = min(loss_list1)
+        overlap_score1.append(overlap1)
         # find offset1
         min_loss_idx = loss_list1.index(min(loss_list1))
         best_offset1 = offset_list_deg1[min_loss_idx]
@@ -341,6 +352,9 @@ def regress_offset_cw(
             loss_list2.append(loss)
             offset_list_deg2.append(offset2)
 
+        overlap2 = min(loss_list2)
+        overlap_score2.append(overlap2)
+
         min_loss_idx = loss_list2.index(min(loss_list2))
         best_offset2 = offset_list_deg2[min_loss_idx]
 
@@ -350,4 +364,4 @@ def regress_offset_cw(
         prev_offset1 = best_offset1
         prev_offset2 = best_offset2
 
-    return optimal_offsets1, optimal_offsets2
+    return optimal_offsets1, optimal_offsets2, overlap_score1, overlap_score2
