@@ -14,8 +14,8 @@ def regress_offset_ccw(
     n_folds,
     k,
     imshape=None,
-    cx=0,
-    cy=0,
+    cx=None,
+    cy=None,
     offset_step=0.5,
     mask_threshold=0.01,
 ):
@@ -41,9 +41,9 @@ def regress_offset_ccw(
         imshape (tuple, optional): The shape of the diffraction patterns. If None,
             it is inferred from the input data.
         cx (int, optional): The x-coordinate of the center of the diffraction pattern.
-            Defaults to 0.
+            Defaults to middle of dps.
         cy (int, optional): The y-coordinate of the center of the diffraction pattern.
-            Defaults to 0.
+            Defaults to middle of dps.
         offset_step (float, optional): The step size (in degrees) for the angular search.
             Defaults to 0.5.
         mask_threshold (float, optional): The threshold for masking out the first signal
@@ -73,6 +73,11 @@ def regress_offset_ccw(
             imshape = dps.shape[1:]  # stack of images
         else:
             raise ValueError(f"Unsupported data shape: {dps.shape}")
+
+    if cx is None:
+        cx = imshape[1] // 2
+    if cy is None:
+        cy = imshape[0] // 2
 
     optimal_offsets1 = []
     optimal_offsets2 = []
@@ -186,8 +191,8 @@ def regress_offset_cw(
     n_folds,
     k,
     imshape=None,
-    cx=0,
-    cy=0,
+    cx=None,
+    cy=None,
     offset_step=0.5,
     mask_threshold=0.01,
 ):
@@ -236,6 +241,11 @@ def regress_offset_cw(
             imshape = dps.shape[1:]  # stack of images
         else:
             raise ValueError(f"Unsupported dps shape: {dps.shape}")
+
+    if cx is None:
+        cx = imshape[1] // 2
+    if cy is None:
+        cy = imshape[0] // 2
 
     optimal_offsets1 = []
     optimal_offsets2 = []
