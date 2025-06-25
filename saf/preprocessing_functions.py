@@ -2,9 +2,6 @@ import numpy as np
 from scipy.ndimage import gaussian_filter
 
 
-import numpy as np
-from scipy.ndimage import gaussian_filter
-
 def mask_and_blur_annulus(
     array,
     inner_radius=14,  # default values for SkL case
@@ -14,8 +11,9 @@ def mask_and_blur_annulus(
     y_shift=0,
     blur=False,
 ):
-    """Apply an annular mask and optional Gaussian blur to a 2D image or a stack of 2D images.
-    
+    """Apply an annular mask and optional Gaussian blur to a 2D image or a
+    stack of 2D images.
+
     Parameters
     ----------
     array : np.ndarray
@@ -39,15 +37,14 @@ def mask_and_blur_annulus(
         Masked (and optionally blurred) array of the same shape as input.
     """
     # Handle single image as a stack of one
-    is_single_image = (array.ndim == 2)
+    is_single_image = array.ndim == 2
     if is_single_image:
         array = array[np.newaxis, ...]  # Add image stack dimension
 
     n_images, height, width = array.shape
-    x, y = np.meshgrid(np.arange(height), np.arange(width), indexing='ij')
+    x, y = np.meshgrid(np.arange(height), np.arange(width), indexing="ij")
     radius = np.sqrt(
-        (x - (height - x_shift) // 2) ** 2 +
-        (y - (width - y_shift) // 2) ** 2
+        (x - (height - x_shift) // 2) ** 2 + (y - (width - y_shift) // 2) ** 2
     )
     mask = (radius > inner_radius) & (radius < outer_radius)
 
@@ -59,7 +56,6 @@ def mask_and_blur_annulus(
         result[i] = masked
 
     return result[0] if is_single_image else result
-
 
 
 def normalize_min_max(data):
