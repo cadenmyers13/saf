@@ -129,13 +129,15 @@ def calculate_offsets(
             tolerance_reverse=tolerance_reverse,
         )
     else:
-        offsets1, offsets2, overlap_score1, overlap_score2 = regress_offset_ccw(
-            dps=dps,
-            n_folds=n_folds,
-            k=k,
-            imshape=imshape,
-            tolerance_forward=tolerance_forward,
-            tolerance_reverse=tolerance_reverse,
+        offsets1, offsets2, overlap_score1, overlap_score2 = (
+            regress_offset_ccw(
+                dps=dps,
+                n_folds=n_folds,
+                k=k,
+                imshape=imshape,
+                tolerance_forward=tolerance_forward,
+                tolerance_reverse=tolerance_reverse,
+            )
         )
 
     return offsets1, offsets2, overlap_score1, overlap_score2
